@@ -131,10 +131,11 @@ public class cadastroVIEW extends javax.swing.JFrame {
         ProdutosDAO produto1 = new ProdutosDAO();
         
         String nome = cadastroNome.getText();
-        String valor = cadastroValor.getText();
+        Double valor ;
+        valor=Double.parseDouble(cadastroValor.getText());
         String status = "A Venda";
         produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
+        produto.setValor(valor);
         produto.setStatus(status);
         
         produto1.cadastrarProduto();
