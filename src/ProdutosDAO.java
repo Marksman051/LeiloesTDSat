@@ -10,8 +10,7 @@ import java.util.List;
 public class ProdutosDAO {
 
     Connection conn;
-    PreparedStatement prep;
-    ResultSet resultset;
+    
 
     public void cadastrarProduto() {
 
@@ -36,7 +35,7 @@ public class ProdutosDAO {
 
     public ArrayList<ProdutosDTO> listarProdutos() {
         conn = new conectaDAO().connectDB();
-        String sql = "SELECT * FROM produtosL";
+        String sql = "SELECT * FROM produtosL UNION SELECT status FROM produtosL WHERE LIKE 'vendido'";
 
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
@@ -53,7 +52,7 @@ public class ProdutosDAO {
             }
             return listagem;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return null;
         }
     }
@@ -66,6 +65,29 @@ public class ProdutosDAO {
             stmt.executeQuery();
         } catch (SQLException e) {
             System.out.println("Erro ao editar produto " + e.getMessage());
+        }
+    }
+
+    public ArrayList<ProdutosDTO> listarVendas() {
+        conn = new conectaDAO().connectDB();
+        String sql = "SELECT id,nome,status FROM produtosL WHERE status = 'vendido' ";
+
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+
+            while (rs.next()) {
+                ProdutosDTO p = new ProdutosDTO();
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setStatus(rs.getString("status"));
+                listagem.add(p);
+            }
+            return listagem;
+
+        } catch (SQLException e) {
+            return null;
         }
     }
 }
