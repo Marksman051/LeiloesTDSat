@@ -70,10 +70,10 @@ public class ProdutosDAO {
 
     public ArrayList<ProdutosDTO> listarVendas() {
         conn = new conectaDAO().connectDB();
-        String sql = "SELECT id,nome,status FROM produtosL WHERE status = 'vendido' ";
+        String SQL = "SELECT id,nome,status FROM produtosL WHERE status = 'vendido' ";
 
         try {
-            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            PreparedStatement stmt = this.conn.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery();
             ArrayList<ProdutosDTO> listagem = new ArrayList<>();
 
